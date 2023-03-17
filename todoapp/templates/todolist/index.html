@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    Менеджер звонков
+{% endblock %}
+
+{% block content %}
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button>
+
+    <div class="section full-height">
+        <div class="absolute-center">
+            <div class="section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <table>
+                                {% for publisher in task %}
+                                <tr>
+                                    <td>{{ publisher.number }}</td>
+                                    <td>{{ publisher.site }}</td>
+                                    <td>{{ publisher.datatime }}</td>
+                                    <td>{{ publisher.comment }}</td>
+                                    <td>{{ publisher.is_complete }}</td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                            
+                        </div>	
+                    </div>		
+                </div>		
+            </div>
+        </div>
+    </div>
+
+    </div>
+    <div class="section mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div id="switch">
+                        <div id="circle"></div>
+                    </div>
+                </div>	
+            </div>		
+        </div>			
+    </div>
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button>
+
+    {% include "include/create_modal.html" %}
+{% endblock %}
