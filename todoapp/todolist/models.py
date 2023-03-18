@@ -11,5 +11,5 @@ class ToDo(models.Model):
         verbose_name = 'Задача'
         verbose_name_plural = 'Задания'
 
-    def __int__(self):
-        return self.number
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args,**kwargs)

@@ -407,7 +407,11 @@ body.dark h4 {
     transition-delay: 0ms !important;
 }
 body.dark h5 {
-	color: #fff;
+	color: #1f2029;
+    transition-delay: 0ms !important;
+}
+body.dark label {
+	color: #1f2029;
     transition-delay: 0ms !important;
 }
 body.dark h1{
@@ -551,6 +555,4 @@ table {
 	padding: 8px;
   }
   
-  tr:nth-child(even) {
-	background-color: #dddddd;
-  }
+ 

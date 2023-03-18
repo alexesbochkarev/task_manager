@@ -16,13 +16,32 @@
                     <div class="row">
                         <div class="col-12">
                             <table>
+                                <tr>
+                                    <th>Номер</th>
+                                    <th>Сайт</th>
+                                    <th>Когда позвонить</th>
+                                    <th>Комментари</th>
+                                    <th>Статус</th>
+                                </tr>
                                 {% for publisher in task %}
                                 <tr>
                                     <td>{{ publisher.number }}</td>
+                                    
                                     <td>{{ publisher.site }}</td>
+                                    
                                     <td>{{ publisher.datatime }}</td>
+                                    
                                     <td>{{ publisher.comment }}</td>
-                                    <td>{{ publisher.is_complete }}</td>
+                                    <td class="d-flex justify-content-between">
+                                    {% if publisher.is_complete == False %}
+                                        <a class="btn btn-danger btn-sm" href="{% url 'todolist:update' pk=publisher.id %}">Не завершено</a>
+                                    {% else %}
+                                        <a class="btn btn-success btn-sm" href="{% url 'todolist:update' pk=publisher.id %}">Выполнено</a>
+                                    {% endif %}
+                                        <a class="close" href="{% url 'todolist:delete' pk=publisher.id %}">
+                                            <span aria-hidden="true" style="color:red">×</span>
+                                        </a>
+                                    </td>
                                 </tr>
                                 {% endfor %}
                             </table>
@@ -35,7 +54,7 @@
     </div>
 
     </div>
-    <div class="section mt-5">
+    <div class="section mb-5">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -47,7 +66,7 @@
         </div>			
     </div>
 
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button>
+    
 
     {% include "include/create_modal.html" %}
 {% endblock %}

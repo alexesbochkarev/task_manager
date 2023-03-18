@@ -27,10 +27,10 @@
                                 </div>
                             </li> -->
                             <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                                <a class="nav-link" href="{% url 'todolist:index' %}">Задачи</a>
+                                <a class="nav-link"  data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" style="cursor: pointer">Создать запись</a>
                             </li>
                             <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                                <a class="nav-link" href="#">Личный кабинет</a>
+                                <a class="nav-link" href="/admin">{{ user }}</a>
                             </li>
                         </ul>
                     </div>
