@@ -12,7 +12,8 @@
             <th>Комментари</th>
             <th>Статус</th>
         </tr>
-        {% for publisher in object_list %}
+        
+        {% for publisher in view.get_not_complete %}
         <tr>
             <td>{{ publisher.number }}</td>
             
@@ -35,6 +36,7 @@
             </td>
         </tr>
         {% endfor %}
+        
     </table>
 
 {% endblock %}
