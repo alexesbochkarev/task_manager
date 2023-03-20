@@ -1,1 +1,46 @@
-Hello world
+
+{% extends "todolist/base_todolist.html" %}
+{% load static %}
+
+
+{% block table %}
+
+    <table>
+        <tr>
+            <th>Номер</th>
+            <th>Сайт</th>
+            <th>Когда позвонить</th>
+            <th>Комментарий</th>
+            <th>Статус</th>
+        </tr>
+        <tr>
+            <td>
+                <a href="{% url 'todolist:detail' pk=object.id %}">{{ object.number }}</a>
+            </td>
+            
+            <td>{{ object.site }}</td>
+            
+            <td>{{ object.datatime }}</td>
+            
+            <td>
+                <a data-toggle="modal" data-target="#updateComment" data-whatever="@mdo" style="cursor: pointer" href="#">
+                    {{ object.comment }}
+                </a>
+            </td>
+
+            <td class="d-flex justify-content-between">
+            {% if object.is_complete == False %}
+                <a class="btn btn-danger btn-sm" href="{% url 'todolist:update' pk=object.id %}">Не завершено</a>
+            {% else %}
+                <a class="btn btn-success btn-sm" href="{% url 'todolist:update' pk=object.id %}">Выполнено</a>
+            {% endif %}
+                <a class="close" href="{% url 'todolist:delete' pk=object.id %}">
+                    <span aria-hidden="true" style="color:red">×</span>
+                </a>
+            </td>
+        </tr>
+    </table>
+
+    {% include "include/update_modal.html" %}
+
+{% endblock %}

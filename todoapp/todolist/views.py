@@ -1,13 +1,14 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import View
+from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.shortcuts import redirect, get_object_or_404, redirect
 
 
 from .models import ToDo
-from .forms import TodoForm
+from .forms import TodoForm, UpdateCommentForm
 
 
 class TodoFilterView:
@@ -25,7 +26,7 @@ class IndexListView(TodoFilterView, ListView):
     template_name='todolist/index.html'
 
     def get_queryset(self):
-        return ToDo.objects.order_by('-id')[0:10]
+        return ToDo.objects.order_by('-id')[0:9]
 
 class TodoCreateView(CreateView):
     model = ToDo
@@ -61,31 +62,23 @@ class SearchDateView(TodoFilterView, ListView):
         return queryset
 
 
-def todo_detail(request, pk):
-    todo = get_object_or_404(ToDo, id=pk)
-    # comments = post.comments.all()
-    # form = CommentForm()
-    context = {
-        'todo': todo,
-        # 'form': form,
-        # 'comments': comments,
-    }
-    return render(request, 'todolist/todo_detail.html', context)
+class TodoDetailview(TodoFilterView, DetailView):
+     model = ToDo
+     template_name='todolist/todo_detail.html'
 
 
-
-# class TodoUpdateView(View):
-#     model = ToDo
-#     fields = ['is_complete']
-#     template_name='todolist/index.html'
-#     success_url = reverse_lazy('todolist:index')
+class TodoUpdateView(UpdateView):
+    model = ToDo
+    template_name='todolist/create.html'
+    form_class = UpdateCommentForm
+    success_url = "/detail/{id}"
 
 
 def update(request, pk):
         todo = ToDo.objects.get(id=pk)
         todo.is_complete = not todo.is_complete
         todo.save()
-        return redirect('todolist:index')
+        return redirect(request.META.get('HTTP_REFERER'))
 
 def delete(request, pk):
         todo = ToDo.objects.get(id=pk)

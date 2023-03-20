@@ -9,20 +9,20 @@
             <th>Номер</th>
             <th>Сайт</th>
             <th>Когда позвонить</th>
-            <th>Комментари</th>
+            <th>Комментарий</th>
             <th>Статус</th>
         </tr>
         {% for publisher in object_list %}
         <tr>
-            <td>{{ publisher.number }}</td>
+            <td>
+                <a href="{% url 'todolist:detail' pk=publisher.id %}">{{ publisher.number }}</a>
+            </td>
             
             <td>{{ publisher.site }}</td>
             
             <td>{{ publisher.datatime }}</td>
             
-            <td>
-                <a href="{% url 'todolist:detail' pk=publisher.id %}">{{ publisher.comment }}</a>
-            </td>
+            <td>{{ publisher.comment }}</td>
             <td class="d-flex justify-content-between">
             {% if publisher.is_complete == False %}
                 <a class="btn btn-danger btn-sm" href="{% url 'todolist:update' pk=publisher.id %}">Не завершено</a>
