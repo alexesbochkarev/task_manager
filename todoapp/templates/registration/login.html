@@ -1,21 +1,53 @@
-{%extends 'todolist/base_todolist.html'%}
+{% extends "base.html" %}
+{% load static %}
 
-{%block table%}
-  <div class="center">
-	  <form method="post" class="card" novalidate>
-	  	{% csrf_token %}
-	    <h2 class="text-center">Log in to your account</h2>
-		{% for field in form %}
-	    		{{ field.label_tag }} 
-	        	{{ field }}
-	        	{% if field.errors %}
-	        		<small>{{ field.errors|striptags }}</small> 
-	        	{% endif %}
-		{% endfor %}
-		
-		<input type="submit" value="Login" class="btn btn-primary full-width">
-		<hr>
-	</form>
+{% block title %}
+    Вход
+{% endblock %}
+
+{% block content %}
+<div class="section full-height">
+	<div class="d-flex mt-4 pt-5">
+		<div class="section">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<div class="center d-flex justify-content-center my-5">
+							<form method="post" class="card" >
+								{% csrf_token %}
+
+								{% if form.errors %}
+								{% for field in form %}
+									{% for error in field.errors %}            
+									<div class="alert alert-danger">
+										{{ error|escape }}
+									</div>
+									{% endfor %}
+								{% endfor %}
+								{% for error in form.non_field_errors %}
+									<div class="alert alert-danger">
+									{{ error|escape }}
+									</div>
+								{% endfor %}
+								{% endif %}
+								<h2 class="text-center">Вход</h2>
+								{% for field in form %}
+										{{ field.label_tag }} 
+										{{ field }}
+										{% if field.errors %}
+											<small>{{ field.errors|striptags }}</small> 
+										{% endif %}
+								{% endfor %}
+								
+								<input type="submit" value="Вход" class="btn btn-dark full-width">
+								<hr>
+							</form>
+						</div>
+					</div>	
+				</div>		
+			</div>		
+		</div>
+	</div>
 </div>
 
 {% endblock %}
