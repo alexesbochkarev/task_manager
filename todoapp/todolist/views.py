@@ -7,8 +7,8 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.shortcuts import redirect, get_object_or_404, redirect
 
 
-from .models import ToDo
-from .forms import TodoForm, UpdateCommentForm
+from .models import ToDo, Comment
+from .forms import TodoForm, UpdateCommentForm, CommentsFormModel
 
 
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -25,6 +25,7 @@ class TodoFilterView:
 
     def get_not_complete(self):
         return ToDo.objects.filter(is_complete=False)
+    
 
 
 class IndexListView(MyLoginRequiredMixin, TodoFilterView, ListView):
@@ -33,7 +34,8 @@ class IndexListView(MyLoginRequiredMixin, TodoFilterView, ListView):
     template_name='todolist/index.html'
 
     def get_queryset(self):
-        return ToDo.objects.order_by('-id')[0:9]
+        return ToDo.objects.order_by('-id')[0:1]
+    
 
 class TodoCreateView(MyLoginRequiredMixin, CreateView):
     model = ToDo
@@ -42,6 +44,16 @@ class TodoCreateView(MyLoginRequiredMixin, CreateView):
     
     success_url = "/detail/{id}"
 
+
+def add_comment(request, id):
+    number = get_object_or_404(ToDo, id=id)
+    form = CommentsFormModel(request.POST or None)
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.author = request.user
+        comment.number = number
+        comment.save()
+    return redirect('todolist:detail', pk=id)
 
 class CompleteListView(MyLoginRequiredMixin, TodoFilterView, ListView):
     model = ToDo
@@ -74,11 +86,15 @@ class TodoDetailview(MyLoginRequiredMixin, TodoFilterView, DetailView):
      template_name='todolist/todo_detail.html'
 
 
-class TodoUpdateView(MyLoginRequiredMixin, UpdateView):
+
+
+class TodoUpdateView(MyLoginRequiredMixin, TodoFilterView, UpdateView):
     model = ToDo
     template_name='todolist/todo_detail.html'
     form_class = UpdateCommentForm
     success_url = "/detail/{id}"
+
+
 
 
 def update(request, pk):

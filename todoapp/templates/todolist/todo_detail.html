@@ -23,9 +23,9 @@
             <td>{{ object.datatime }}</td>
             
             <td>
-                <a data-toggle="modal" data-target="#updateComment" data-whatever="@mdo" style="cursor: pointer" href="#">
+                <!-- <a data-toggle="modal" data-target="#updateComment" data-whatever="@mdo" style="cursor: pointer" href="#"> -->
                     {{ object.comment }}
-                </a>
+                <!-- </a> -->
             </td>
 
             <td class="d-flex justify-content-between">
@@ -41,6 +41,36 @@
         </tr>
     </table>
 
+    <style>
+        textarea.form-control {
+            resize: none;
+            max-width: 450px;
+            max-height: 150px;
+        }
+    </style>
+
+    <div class="container my-3">
+        <h5>История комментариев:</h5>
+        {% for comments in object.comments.all %}
+        <div class="my-3">
+            <h6>{{ comments.text }}</h6>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="align-items-center d-flex flex-column my-4">
+        
+            <h5 class="card-header">Добавить комментарий:</h5>
+            <div class="card-body">
+            <form method="post" action="{% url 'todolist:create_comment' id=object.id %}">
+                {% csrf_token %}
+                <div class="form-group mb-2">
+                {{ comment_create.text }}
+                </div>
+                <button type="submit" class="btn btn-dark">Отправить</button>
+            </form>
+            </div>
+        
+      </div>
     {% include "include/update_modal.html" %}
 
 {% endblock %}

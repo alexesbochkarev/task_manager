@@ -1,5 +1,5 @@
 from django import forms
-from .models import ToDo
+from .models import ToDo, Comment
 
 
 class TodoForm(forms.ModelForm):
@@ -21,3 +21,11 @@ class UpdateCommentForm(forms.ModelForm):
     class Meta:
         model = ToDo
         fields = ('comment',)
+
+
+class CommentsFormModel(forms.ModelForm):
+    text = forms.CharField(widget=forms.Textarea(attrs={"class": "form-control"}))
+
+    class Meta:
+        model = Comment
+        fields = ['text']
